@@ -1,5 +1,7 @@
 package com.ecom.flipkart;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,15 +19,17 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public List<User> getAllUsers() {
-//        return userList;
-        return userService.fetchAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+    //        return userList;
+        return ResponseEntity.ok(userService.fetchAllUsers());
+        //ALTERNATIVE RESPONSE :
+    //  return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
     }
 
     //GET BY ID
     @GetMapping("/api/users/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.fetchById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.fetchById(id));
     }
 
     //Before we fetch data, we need data to be present in DB.
@@ -36,9 +40,9 @@ public class UserController {
 //        userList.add(user);
 //        return userList;
 
-        public String createUsers(@RequestBody User user) {
+        public  ResponseEntity<String> createUsers(@RequestBody User user) {
         userService.addUser(user);
-        return "User Added Successfully";
+        return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
 }
