@@ -29,7 +29,12 @@ public class UserController {
     //GET BY ID
     @GetMapping("/api/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.fetchById(id));
+        User user = userService.fetchById(id);
+        if(user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+//        return ResponseEntity.ok(userService.fetchById(id));
     }
 
     //Before we fetch data, we need data to be present in DB.
