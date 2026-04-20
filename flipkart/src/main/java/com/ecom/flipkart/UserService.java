@@ -9,14 +9,23 @@ import java.util.List;
 @Service
 public class UserService{
         private List<User> userList = new ArrayList<>();
+        private Long nextid =1L;
 
         public List<User> fetchAllUsers(){
             return userList;
         }
 
-        public List<User> addUser(User user){
+        public void addUser(User user){
+            user.setId(nextid++);
             userList.add(user);
-            return userList;
         }
 
+    public User fetchById(Long id) {
+        for (User user : userList) {
+            if(user.getId().equals(id)){
+                return user;
+            }
+        }
+        return null;
+    }
 }
