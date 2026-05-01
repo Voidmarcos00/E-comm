@@ -29,12 +29,17 @@ public class UserController {
     //GET BY ID
     @GetMapping("/api/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.fetchById(id);
-        if(user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user);
+//        User user = userService.fetchById(id);
+//        if(user == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(user);
 //        return ResponseEntity.ok(userService.fetchById(id));
+
+        // JAVA STREAMS FOR DATA PROCESSING
+        return userService.fetchById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     //Before we fetch data, we need data to be present in DB.
@@ -46,7 +51,7 @@ public class UserController {
 //        return userList;
 
         public  ResponseEntity<String> createUsers(@RequestBody User user) {
-        userService.addUser(user);
+            userService.addUser(user);
         return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
