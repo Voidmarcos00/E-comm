@@ -55,5 +55,13 @@ public class UserController {
         return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
+    //PUT ENDPOINT
+    @PutMapping("api/users/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        Boolean updated = userService.updateUserById(id,updatedUser);
+        if(updated)
+            return ResponseEntity.ok("User updated");
+        return ResponseEntity.notFound().build();
+    }
 }
 

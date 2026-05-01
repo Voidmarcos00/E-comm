@@ -1,6 +1,7 @@
 package com.ecom.flipkart;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,5 +34,16 @@ public class UserService{
         return userList.stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst();
+    }
+
+    public Boolean updateUserById(Long id, User Updateduser) {
+        return userList.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .map(existingId -> {
+                    existingId.setName(Updateduser.getName());
+                    existingId.setAge(Updateduser.getAge());
+                    return true;
+                }).orElse(false);
     }
 }
