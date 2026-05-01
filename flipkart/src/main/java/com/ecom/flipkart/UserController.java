@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+//@RequiredArgsConstructor
+@RequestMapping("/api/users")
 public class UserController {
     //    private List<User> userList = new ArrayList<>();
 
@@ -18,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/api/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
     //        return userList;
         return ResponseEntity.ok(userService.fetchAllUsers());
@@ -27,7 +29,7 @@ public class UserController {
     }
 
     //GET BY ID
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
 //        User user = userService.fetchById(id);
 //        if(user == null) {
@@ -45,7 +47,7 @@ public class UserController {
     //Before we fetch data, we need data to be present in DB.
     //So creating POST ENDPOINT
 
-    @PostMapping("/api/users")
+    @PostMapping
 //    public List<User> createUsers(@RequestBody User user) {
 //        userList.add(user);
 //        return userList;
@@ -56,7 +58,7 @@ public class UserController {
     }
 
     //PUT ENDPOINT
-    @PutMapping("api/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         Boolean updated = userService.updateUserById(id,updatedUser);
         if(updated)
