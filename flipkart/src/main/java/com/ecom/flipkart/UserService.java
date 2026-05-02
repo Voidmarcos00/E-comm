@@ -10,16 +10,24 @@ import java.util.Optional;
 
 @Service
 public class UserService{
-        private List<User> userList = new ArrayList<>();
-        private Long nextid =1L;
 
-        public List<User> fetchAllUsers(){
-            return userList;
+        private final UserRepository userRepository;
+//        private List<User> userList = new ArrayList<>();
+//        private Long nextid =1L;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public List<User> fetchAllUsers(){
+//            return userList;
+            return userRepository.findAll();
         }
 
         public void addUser(User user){
-            user.setId(nextid++);
-            userList.add(user);
+//            user.setId(nextid++);
+//            userList.add(user);
+            userRepository.save(user);
         }
 
     public Optional<User> fetchById(Long id) {
@@ -31,18 +39,26 @@ public class UserService{
 //        return null;
 
         //JAVA STREAMS (Optional)
-        return userList.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst();
+//        return userList.stream()
+//                .filter(user -> user.getId().equals(id))
+//                .findFirst();
+        return userRepository.findById(id);
     }
 
     public Boolean updateUserById(Long id, User Updateduser) {
-        return userList.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
+//        return userList.stream()
+//                .filter(user -> user.getId().equals(id))
+//                .findFirst()
+//                .map(existingId -> {
+//                    existingId.setName(Updateduser.getName());
+//                    existingId.setAge(Updateduser.getAge());
+//                    return true;
+//                }).orElse(false);
+        return userRepository.findById(id)
                 .map(existingId -> {
                     existingId.setName(Updateduser.getName());
                     existingId.setAge(Updateduser.getAge());
+                    userRepository.save(existingId);
                     return true;
                 }).orElse(false);
     }
