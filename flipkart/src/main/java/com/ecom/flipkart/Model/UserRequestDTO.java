@@ -1,4 +1,4 @@
-package com.ecom.flipkart;
+package com.ecom.flipkart.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,12 @@
-package com.ecom.flipkart;
+package com.ecom.flipkart.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.ecom.flipkart.Repositories.UserRepository;
+import com.ecom.flipkart.Domain.User;
+import com.ecom.flipkart.Mapper.UserMapper;
+import com.ecom.flipkart.Model.UserRequestDTO;
+import com.ecom.flipkart.Model.UserResponseDto;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

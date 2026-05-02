@@ -1,12 +1,10 @@
-package com.ecom.flipkart;
+package com.ecom.flipkart.Domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 // @Data --> Used to expose fields(alternative for using of getters and setters)
 @Data
