@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
     //        return userList;
         return ResponseEntity.ok(userService.fetchAllUsers());
         //ALTERNATIVE RESPONSE :
@@ -30,7 +30,7 @@ public class UserController {
 
     //GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
 //        User user = userService.fetchById(id);
 //        if(user == null) {
 //            return ResponseEntity.notFound().build();
@@ -52,15 +52,15 @@ public class UserController {
 //        userList.add(user);
 //        return userList;
 
-        public  ResponseEntity<String> createUsers(@RequestBody User user) {
-            userService.addUser(user);
+        public  ResponseEntity<String> createUsers(@RequestBody UserRequestDTO dto) {
+            userService.addUser(dto);
         return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
     //PUT ENDPOINT
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-        Boolean updated = userService.updateUserById(id,updatedUser);
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserRequestDTO dto) {
+        Boolean updated = userService.updateUserById(id,dto);
         if(updated)
             return ResponseEntity.ok("User updated");
         return ResponseEntity.notFound().build();

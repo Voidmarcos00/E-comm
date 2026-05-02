@@ -1,12 +1,13 @@
 package com.ecom.flipkart;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService{
@@ -15,22 +16,28 @@ public class UserService{
 //        private List<User> userList = new ArrayList<>();
 //        private Long nextid =1L;
 
-    public UserService(UserRepository userRepository) {
+       private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public List<User> fetchAllUsers(){
+    public List<UserResponseDto> fetchAllUsers(){
 //            return userList;
-            return userRepository.findAll();
+            return userRepository.findAll().stream()
+                    .map(userMapper::toResponse)
+                    .collect(Collectors.toList());
         }
 
-        public void addUser(User user){
+        public void addUser(UserRequestDTO dto){
 //            user.setId(nextid++);
 //            userList.add(user);
+            User user =userMapper.toEntity(dto);
             userRepository.save(user);
         }
 
-    public Optional<User> fetchById(Long id) {
+    public Optional<UserResponseDto> fetchById(Long id) {
 //        for (User user : userList) {
 //            if(user.getId().equals(id)){
 //                return user;
@@ -42,10 +49,10 @@ public class UserService{
 //        return userList.stream()
 //                .filter(user -> user.getId().equals(id))
 //                .findFirst();
-        return userRepository.findById(id);
+        return userRepository.findById(id).map(userMapper::toResponse);
     }
 
-    public Boolean updateUserById(Long id, User Updateduser) {
+    public Boolean updateUserById(Long id, UserRequestDTO dto) {
 //        return userList.stream()
 //                .filter(user -> user.getId().equals(id))
 //                .findFirst()
@@ -56,8 +63,8 @@ public class UserService{
 //                }).orElse(false);
         return userRepository.findById(id)
                 .map(existingId -> {
-                    existingId.setName(Updateduser.getName());
-                    existingId.setAge(Updateduser.getAge());
+                    existingId.setName(dto.getName());
+                    existingId.setAge(dto.getAge());
                     userRepository.save(existingId);
                     return true;
                 }).orElse(false);
